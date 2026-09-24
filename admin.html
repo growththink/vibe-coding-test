@@ -224,7 +224,9 @@ function render(){
 }
 
 function toCsvField(v){
-  const s = String(v == null ? "" : v);
+  let s = String(v == null ? "" : v);
+  // 엑셀 수식 실행 방지 (CSV injection)
+  if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return '"' + s.replace(/"/g, '""') + '"';
 }
 
