@@ -58,6 +58,18 @@ button{font:inherit;color:inherit}
 .btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--ink)}
 .resume{margin-top:12px;background:none;border:0;color:var(--soft);font-weight:700;text-decoration:underline;cursor:pointer;padding:8px}
 
+/* 자기소개 */
+.intro{justify-content:center;gap:8px}
+.intro h2{margin:14px 0 0;font-family:var(--round);font-weight:400;font-size:clamp(1.7rem,7vw,2.1rem);line-height:1.3;word-break:keep-all}
+.intro .lead{margin:8px auto 0;max-width:22em;color:var(--soft);line-height:1.6;word-break:keep-all}
+.field{text-align:left;margin-top:18px}
+.field label{display:block;font-weight:700;font-size:.88rem;margin-bottom:8px}
+.field input,.field textarea{width:100%;appearance:none;border:2px solid var(--line);border-radius:14px;padding:14px 16px;font:inherit;font-size:1rem;background:var(--card);color:var(--ink);resize:none}
+.field input:focus-visible,.field textarea:focus-visible{border-color:var(--blue)}
+.field .cnt{display:block;text-align:right;font-size:.78rem;color:var(--soft);margin-top:6px}
+.intro .btn:disabled{opacity:.45;cursor:default}
+.intro .btn:disabled:active{transform:none;box-shadow:0 5px 0 var(--ink)}
+
 /* 문항 */
 .top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
 .back{appearance:none;border:0;background:var(--card);border:1.5px solid var(--line);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:1.1rem;flex-shrink:0}
@@ -89,6 +101,7 @@ button{font:inherit;color:inherit}
 
 /* 결과 */
 .rcard{background:var(--card);border:2px solid var(--ink);border-radius:24px;padding:28px 22px 24px;text-align:center;box-shadow:0 8px 0 var(--ink)}
+.rname{margin:0 0 8px;font-family:var(--round);font-weight:400;font-size:clamp(1.4rem,6.2vw,1.75rem);line-height:1.35;word-break:keep-all}
 .rlabel{margin:0;font-weight:700;color:var(--soft);font-size:.9rem}
 .remoji{font-size:5rem;line-height:1;margin:16px 0 10px}
 .rtype{margin:0;font-family:var(--round);font-weight:400;font-size:clamp(1.8rem,8vw,2.2rem);line-height:1.25;word-break:keep-all}
@@ -138,6 +151,25 @@ button{font:inherit;color:inherit}
     <div class="facts"><span>20문제</span><span>약 5분</span><span>해설 포함</span></div>
     <button class="btn" id="startBtn" type="button">테스트 시작하기</button>
     <button class="resume" id="resumeBtn" type="button" hidden>이어서 풀기</button>
+  </section>
+
+  <section class="screen intro" id="s-intro" hidden>
+    <h2>시작하기 전에<br>먼저 알려주세요</h2>
+    <p class="lead">결과에 이름을 붙여서 보여드려요.</p>
+    <form id="introForm">
+      <div class="field">
+        <label for="nameInput">이름/닉네임 <span aria-hidden="true">*</span></label>
+        <input type="text" id="nameInput" name="name" maxlength="20" placeholder="예: 홍길동" autocomplete="off" required>
+        <span class="cnt" id="nameCnt">0/20</span>
+      </div>
+      <div class="field">
+        <label for="introInput">한 줄 자기소개 (선택)</label>
+        <textarea id="introInput" name="intro" maxlength="60" rows="2" placeholder="예: 마케터인데 자동화에 관심 많아요"></textarea>
+        <span class="cnt" id="introCnt">0/60</span>
+      </div>
+      <button class="btn" type="submit" id="introStartBtn" disabled style="margin-top:22px">테스트 시작하기</button>
+      <button class="resume" id="introBackBtn" type="button">뒤로가기</button>
+    </form>
   </section>
 
   <section class="screen" id="s-quiz" hidden>
@@ -245,14 +277,18 @@ const TYPES = {
 };
 
 const KEY = "vc1-mbti-v1";
-let st = {answers:Array(Q.length).fill(null), idx:0, done:false};
+let st = {answers:Array(Q.length).fill(null), idx:0, done:false, name:"", intro:"", submitted:false};
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && Array.isArray(s.answers) && s.answers.length === Q.length) st = s; } catch(e){}
+st.name = typeof st.name === "string" ? st.name : "";
+st.intro = typeof st.intro === "string" ? st.intro : "";
+st.submitted = !!st.submitted;
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} };
 const $ = id => document.getElementById(id);
 let locked = false;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 function show(id){
-  ["s-start","s-quiz","s-loading","s-result"].forEach(s => $(s).hidden = s !== id);
+  ["s-start","s-intro","s-quiz","s-loading","s-result"].forEach(s => $(s).hidden = s !== id);
   window.scrollTo({top:0});
 }
 
@@ -318,6 +354,7 @@ function renderResult(){
   const r = calc(), t = TYPES[r.type];
   $("s-result").innerHTML = `
     <div class="rcard enter">
+      ${st.name ? `<p class="rname">${esc(st.name)}님의 점수는 ${r.score}점입니다!</p>` : ""}
       <p class="rlabel">나의 바이브코딩 유형은</p>
       <div class="remoji" aria-hidden="true">${t.emoji}</div>
       <h2 class="rtype">${t.name}</h2>
@@ -351,8 +388,27 @@ function renderResult(){
   filter = r.correct === 20 ? "all" : "wrong";
   renderReview();
   $("s-result").querySelectorAll(".filter button").forEach(b => b.addEventListener("click", () => { filter = b.dataset.f; renderReview(); }));
-  $("retryBtn").addEventListener("click", restart);
+  $("retryBtn").addEventListener("click", retry);
   $("shareBtn").addEventListener("click", share);
+  if (!st.submitted) submitResult(r);
+}
+
+function submitResult(r){
+  st.submitted = true; save();
+  try {
+    fetch("/api/submit", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        name: st.name || "",
+        intro: st.intro || "",
+        score: r.score,
+        total: Q.length,
+        type: r.type,
+        weekly: r.wk.map(x => ({w:x.w, c:x.c, n:x.n}))
+      })
+    }).catch(() => {});
+  } catch(e){}
 }
 
 function renderReview(){
@@ -378,11 +434,42 @@ async function share(){
 }
 
 function restart(){
-  st = {answers:Array(Q.length).fill(null), idx:0, done:false}; save();
+  st = {answers:Array(Q.length).fill(null), idx:0, done:false, name:st.name, intro:st.intro, submitted:false}; save();
   show("s-quiz"); renderQ(1);
 }
 
-$("startBtn").addEventListener("click", restart);
+function retry(){
+  showIntro();
+}
+
+function showIntro(){
+  $("nameInput").value = st.name || "";
+  $("introInput").value = st.intro || "";
+  $("nameCnt").textContent = `${$("nameInput").value.length}/20`;
+  $("introCnt").textContent = `${$("introInput").value.length}/60`;
+  $("introStartBtn").disabled = !$("nameInput").value.trim();
+  show("s-intro");
+}
+
+$("nameInput").addEventListener("input", () => {
+  $("nameCnt").textContent = `${$("nameInput").value.length}/20`;
+  $("introStartBtn").disabled = !$("nameInput").value.trim();
+});
+$("introInput").addEventListener("input", () => {
+  $("introCnt").textContent = `${$("introInput").value.length}/60`;
+});
+$("introForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("nameInput").value.trim().slice(0, 20);
+  if (!name) return;
+  st.name = name;
+  st.intro = $("introInput").value.trim().slice(0, 60);
+  save();
+  restart();
+});
+$("introBackBtn").addEventListener("click", () => show("s-start"));
+
+$("startBtn").addEventListener("click", showIntro);
 $("resumeBtn").addEventListener("click", () => { show("s-quiz"); renderQ(1); });
 
 if (st.done) renderResult();

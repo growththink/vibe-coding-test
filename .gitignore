@@ -1,3 +1,8 @@
 .DS_Store
 .vercel
 .omc/
+
+.vercel
+.env*
+node_modules/
+.env*.local
