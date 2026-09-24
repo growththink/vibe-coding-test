@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>나는 어떤 바이브코더일까? | 바이브코딩 1기 테스트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800&family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9F0FF; --card:#FFFFFF; --ink:#18214A; --soft:#5E6788; --line:#D8E0F5;
+  --blue:#3752F5; --blue-tint:#E4E9FF; --yellow:#FFD84D; --ok:#12A373; --no:#E5484D; --on-blue:#FFFFFF;
+  --round:"Jua","Gothic A1",system-ui,sans-serif;
+  --sans:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10142A; --card:#1B2140; --ink:#EEF1FF; --soft:#A3ABCB; --line:#2E3660;
+    --blue:#7D8FFF; --blue-tint:#262E5C; --yellow:#FFD84D; --ok:#3DD39B; --no:#FF7478; --on-blue:#10142A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10142A; --card:#1B2140; --ink:#EEF1FF; --soft:#A3ABCB; --line:#2E3660;
+  --blue:#7D8FFF; --blue-tint:#262E5C; --yellow:#FFD84D; --ok:#3DD39B; --no:#FF7478; --on-blue:#10142A;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:22px 22px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+.app{max-width:480px;margin:0 auto;min-height:100%;padding:20px 18px 40px;display:flex;flex-direction:column}
+.screen{flex:1;display:flex;flex-direction:column}
+.screen[hidden]{display:none}
+.enter{animation:enter .35s cubic-bezier(.2,.8,.3,1)}
+@keyframes enter{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.enter-back{animation:enterBack .35s cubic-bezier(.2,.8,.3,1)}
+@keyframes enterBack{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+
+/* 시작 */
+.start{justify-content:center;text-align:center;gap:10px}
+.badge{align-self:center;background:var(--card);border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:700}
+.start h1{margin:18px 0 0;font-family:var(--round);font-weight:400;font-size:clamp(2.4rem,11vw,3.3rem);line-height:1.15;letter-spacing:-.01em}
+.start h1 span{display:inline-block;background:var(--yellow);color:#18214A;padding:0 10px;border-radius:10px;transform:rotate(-2deg)}
+.start .lead{margin:14px auto 0;max-width:22em;color:var(--soft);line-height:1.65;word-break:keep-all}
+.hero-emoji{font-size:5.5rem;line-height:1;margin:26px 0 8px;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(4deg)}}
+.facts{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0 26px}
+.facts span{background:var(--card);border-radius:10px;padding:8px 12px;font-size:.85rem;font-weight:700;border:1px solid var(--line)}
+.btn{appearance:none;border:0;border-radius:16px;padding:18px 20px;font-family:var(--round);font-size:1.25rem;cursor:pointer;background:var(--blue);color:var(--on-blue);box-shadow:0 5px 0 var(--ink);transition:transform .08s,box-shadow .08s;width:100%}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--ink)}
+.resume{margin-top:12px;background:none;border:0;color:var(--soft);font-weight:700;text-decoration:underline;cursor:pointer;padding:8px}
+
+/* 문항 */
+.top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.back{appearance:none;border:0;background:var(--card);border:1.5px solid var(--line);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:1.1rem;flex-shrink:0}
+.back:disabled{opacity:.35;cursor:default}
+.progress{flex:1;height:12px;background:var(--card);border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--blue);border-radius:999px;transition:width .35s ease}
+.count{font-family:var(--round);font-size:1.05rem;min-width:52px;text-align:right}
+.qcard{margin-top:22px}
+.week-pill{display:inline-block;background:var(--ink);color:var(--bg);font-size:.78rem;font-weight:800;padding:5px 10px;border-radius:8px}
+.topic{margin-left:6px;font-size:.82rem;color:var(--soft);font-weight:700}
+.qnum{margin:22px 0 0;font-family:var(--round);font-size:2.6rem;color:var(--blue);line-height:1}
+.qtext{margin:10px 0 0;font-family:var(--round);font-weight:400;font-size:clamp(1.35rem,5.6vw,1.6rem);line-height:1.45;word-break:keep-all;min-height:3em}
+.answers{display:grid;gap:10px;margin-top:26px}
+.ans{appearance:none;display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:15px 16px;cursor:pointer;font-size:1rem;line-height:1.55;font-weight:500;word-break:keep-all;transition:border-color .12s,background .12s,transform .12s}
+.ans:hover{border-color:var(--blue)}
+.ans .k{flex-shrink:0;width:26px;height:26px;border-radius:8px;background:var(--blue-tint);color:var(--blue);display:inline-flex;align-items:center;justify-content:center;font-family:var(--round);font-size:1rem;margin-top:-1px}
+.ans.picked{border-color:var(--blue);background:var(--blue-tint);transform:scale(.985)}
+.ans.picked .k{background:var(--blue);color:var(--on-blue)}
+.hint{margin:auto 0 0;padding-top:24px;text-align:center;font-size:.82rem;color:var(--soft)}
+
+/* 로딩 */
+.loading{justify-content:center;align-items:center;text-align:center;gap:18px}
+.dots{display:flex;gap:10px}
+.dots i{width:16px;height:16px;border-radius:50%;background:var(--blue);animation:hop 1s infinite ease-in-out}
+.dots i:nth-child(2){animation-delay:.15s;background:var(--yellow)}
+.dots i:nth-child(3){animation-delay:.3s;background:var(--ink)}
+@keyframes hop{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-16px)}}
+.loading p{font-family:var(--round);font-size:1.3rem;margin:0}
+
+/* 결과 */
+.rcard{background:var(--card);border:2px solid var(--ink);border-radius:24px;padding:28px 22px 24px;text-align:center;box-shadow:0 8px 0 var(--ink)}
+.rlabel{margin:0;font-weight:700;color:var(--soft);font-size:.9rem}
+.remoji{font-size:5rem;line-height:1;margin:16px 0 10px}
+.rtype{margin:0;font-family:var(--round);font-weight:400;font-size:clamp(1.8rem,8vw,2.2rem);line-height:1.25;word-break:keep-all}
+.rsub{margin:10px auto 0;max-width:22em;color:var(--soft);line-height:1.6;word-break:keep-all}
+.score{display:inline-flex;align-items:baseline;gap:4px;margin-top:18px;background:var(--yellow);color:#18214A;border-radius:14px;padding:8px 16px;font-family:var(--round)}
+.score b{font-size:2.2rem;font-weight:400;line-height:1}
+.score span{font-size:1rem}
+.section{margin-top:22px;background:var(--card);border-radius:20px;padding:20px;border:1.5px solid var(--line)}
+.section h3{margin:0 0 14px;font-family:var(--round);font-weight:400;font-size:1.2rem}
+.gauge{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;margin-top:10px}
+.gauge .g-name{font-weight:800;font-size:.9rem;min-width:46px}
+.gauge .g-bar{height:14px;background:var(--blue-tint);border-radius:999px;overflow:hidden}
+.gauge .g-bar i{display:block;height:100%;background:var(--blue);border-radius:999px;width:0;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.gauge .g-num{font-family:var(--round);font-size:1rem;min-width:34px;text-align:right}
+.g-title{font-size:.78rem;color:var(--soft);grid-column:2 / 4;margin-top:-6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two div{background:var(--blue-tint);border-radius:14px;padding:14px;font-size:.9rem;line-height:1.55;word-break:keep-all;text-align:left}
+.two b{display:block;font-family:var(--round);font-weight:400;font-size:1.02rem;margin-bottom:4px}
+.review{display:grid;gap:8px}
+.rv{border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.rv summary{list-style:none;cursor:pointer;padding:14px;display:flex;gap:10px;align-items:flex-start;font-weight:700;font-size:.92rem;line-height:1.5;word-break:keep-all}
+.rv summary::-webkit-details-marker{display:none}
+.rv .mk{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:800}
+.rv.ok .mk{background:var(--ok)}
+.rv.no .mk{background:var(--no)}
+.rv .body{padding:0 14px 14px 48px;font-size:.9rem;line-height:1.65;word-break:keep-all}
+.rv .line{margin:0 0 4px}
+.rv .line.mine{color:var(--no)}
+.rv .line.right{color:var(--ok);font-weight:700}
+.rv .exp{margin:8px 0 0;color:var(--soft)}
+.filter{display:flex;gap:6px;margin-bottom:12px}
+.filter button{appearance:none;border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:7px 12px;font-weight:700;font-size:.82rem;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.actions{display:grid;gap:12px;margin-top:26px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <section class="screen start" id="s-start">
+    <span class="badge">바이브코딩 1기 1~3주차</span>
+    <div class="hero-emoji" aria-hidden="true">🧑‍💻</div>
+    <h1>나는 어떤<br><span>바이브코더</span>일까?</h1>
+    <p class="lead">3주 동안 배운 내용으로 20문제를 풀면, 지금 나의 바이브코딩 유형과 다시 볼 부분을 알려드려요.</p>
+    <div class="facts"><span>20문제</span><span>약 5분</span><span>해설 포함</span></div>
+    <button class="btn" id="startBtn" type="button">테스트 시작하기</button>
+    <button class="resume" id="resumeBtn" type="button" hidden>이어서 풀기</button>
+  </section>
+
+  <section class="screen" id="s-quiz" hidden>
+    <div class="top">
+      <button class="back" id="backBtn" type="button" aria-label="이전 문제">‹</button>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="20" id="pbar"><i id="pfill"></i></div>
+      <span class="count" id="count">1/20</span>
+    </div>
+    <div class="qcard" id="qcard"></div>
+    <p class="hint">답을 고르면 다음 문제로 넘어가요</p>
+  </section>
+
+  <section class="screen loading" id="s-loading" hidden>
+    <div class="dots"><i></i><i></i><i></i></div>
+    <p>결과를 분석하고 있어요</p>
+  </section>
+
+  <section class="screen" id="s-result" hidden></section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const WEEKS = {1:"AI와 대화하며 첫 서비스 만들기", 2:"수정 지옥에서 벗어나는 한마디", 3:"내 프로젝트를 진짜 서비스로"};
+const Q = [
+  {w:1,t:"바이브코딩 원리",q:"바이브코딩을 가장 정확하게 설명한 것은?",
+   o:["코드 문법을 먼저 외운 뒤, AI에게는 검사만 맡기는 방식","만들고 싶은 것을 말로 설명하면 AI가 코드를 쓰고, 나는 결과를 보며 방향을 다시 잡아주는 방식","이미 완성된 템플릿을 사서 이름과 색만 바꾸는 방식","개발자에게 외주를 맡기고 완성본만 받아보는 방식"],a:1,
+   ex:"나는 ‘무엇을, 왜’ 만드는지 말하고, AI가 ‘어떻게’를 코드로 옮깁니다. 결과를 보고 다시 말로 고치는 대화의 반복이 바이브코딩의 핵심이에요."},
+  {w:1,t:"음성 입력 도구",q:"1주차에 무료 음성 입력 도구를 설치한 가장 큰 이유는?",
+   o:["음성으로 요청해야 AI가 코드를 더 빨리 만들어서","키보드로 입력하면 AI가 잘 못 알아들어서","말로 하면 타이핑보다 훨씬 길고 구체적으로 설명하게 되어, AI가 의도를 정확히 이해하기 때문에","음성 입력을 써야 Claude를 무료로 쓸 수 있어서"],a:2,
+   ex:"타이핑은 귀찮아서 짧게 쓰게 되지만, 말은 상황과 이유까지 자연스럽게 붙어요. AI에게는 설명이 구체적일수록 결과가 좋아집니다."},
+  {w:1,t:"잘 만든 서비스 따라 만들기",q:"‘잘 만든 서비스 따라 만들기’ 실습의 진짜 목적은?",
+   o:["똑같이 만들어서 바로 출시하기 위해","디자인 저작권 규칙을 배우기 위해","경쟁사 분석 보고서를 쓰기 위해","이미 검증된 화면 구성과 흐름을 보면서, 원하는 것을 AI에게 구체적으로 말하는 연습을 하기 위해"],a:3,
+   ex:"좋은 서비스는 ‘무엇을 어디에 둘지’가 이미 정리돼 있어요. 그걸 말로 설명해 보는 과정에서 AI에게 요청하는 어휘와 감각이 생깁니다."},
+  {w:1,t:"AI용 PRD 작성법",q:"PRD에 대한 설명으로 가장 알맞은 것은?",
+   o:["완성된 코드를 모아 두는 파일","누구를 위해, 어떤 문제를, 어떤 기능으로 해결하는지 정리한 기획 문서로, AI에게 건네는 설계도","투자자에게 보여주는 재무 계획서","서비스를 다 만든 뒤에 쓰는 사용 설명서"],a:1,
+   ex:"PRD는 만들기 전에 쓰는 문서예요. 대상 사용자, 해결할 문제, 핵심 기능, 화면 흐름을 적어 두면 AI가 매번 같은 방향으로 만들어 줍니다."},
+  {w:1,t:"아이디어를 기능으로",q:"다음 중 AI가 가장 정확하게 만들어 줄 수 있는 요청은?",
+   o:["“좋은 가계부 앱 하나 만들어줘”","“요즘 유행하는 앱처럼 세련되게 만들어줘”","“지출을 날짜, 금액, 분류로 입력하고, 이번 달 분류별 합계를 원그래프로 보여주는 화면을 만들어줘”","“사람들이 좋아할 만한 기능을 알아서 넣어줘”"],a:2,
+   ex:"아이디어를 ‘입력하는 것, 보여주는 것, 계산하는 것’처럼 구체적인 기능으로 쪼개면 AI가 추측해야 할 부분이 줄어들어요."},
+  {w:1,t:"KPT 회고",q:"KPT 회고의 세 글자가 뜻하는 것은?",
+   o:["Keep(계속할 것), Problem(문제였던 것), Try(다음에 시도할 것)","Key(핵심), Plan(계획), Test(검증)","Knowledge(지식), Practice(연습), Teach(가르치기)","Keep(유지), Push(밀어붙이기), Tell(공유)"],a:0,
+   ex:"잘된 것은 유지하고, 문제는 적어 두고, 다음에 해볼 것을 정합니다. 매주 이렇게 정리하면 같은 실수를 반복하지 않아요."},
+
+  {w:2,t:"AI가 엉뚱하게 수정하지 않게 요청하는 법",q:"AI가 다른 곳까지 엉뚱하게 고치지 않게 하려면 어떻게 요청해야 할까?",
+   o:["“전체적으로 좀 더 좋게 다듬어줘”","고칠 것 10가지를 모아서 한 번에 보낸다","아무 말 없이 다시 생성 버튼을 누른다","“로그인 버튼 색만 파란색으로 바꿔줘. 다른 화면과 기능은 건드리지 마”"],a:3,
+   ex:"고칠 대상 하나, 원하는 결과, 건드리지 말아야 할 범위. 이 세 가지를 함께 말하면 수정 지옥에서 빠져나올 수 있어요."},
+  {w:2,t:"오류 해결법",q:"화면에 빨간 오류가 떴다. 가장 좋은 첫 번째 행동은?",
+   o:["프로젝트를 지우고 처음부터 다시 만든다","오류 메시지를 그대로 복사해서, 무엇을 하다가 생겼는지와 함께 AI에게 알려준다","컴퓨터를 재부팅한다","오류가 사라질 때까지 같은 요청을 반복한다"],a:1,
+   ex:"오류 메시지는 AI에게 가장 좋은 단서예요. ‘저장 버튼을 눌렀더니 이 메시지가 떴어’처럼 상황까지 붙이면 원인을 훨씬 빨리 찾습니다."},
+  {w:2,t:"단계적 개선",q:"단계적 개선을 가장 잘 실천한 사람은?",
+   o:["모든 기능을 한 번에 요청해서 하루 만에 끝낸 A","완벽해질 때까지 한 번도 저장하지 않은 B","기능 하나를 고치고, 직접 눌러서 확인하고, 저장한 뒤 다음으로 넘어간 C","여러 AI에게 동시에 같은 작업을 시킨 D"],a:2,
+   ex:"작게 고치고, 확인하고, 저장하는 리듬을 지키면 문제가 생겨도 어디서 망가졌는지 바로 알 수 있어요."},
+  {w:2,t:"저장과 배포",q:"수정할 때마다 GitHub에 저장(커밋)해 두면 좋은 가장 큰 이유는?",
+   o:["수정하다 망가져도 잘 작동하던 시점으로 되돌릴 수 있어서","저장할수록 서비스 속도가 빨라져서","저장하지 않으면 AI가 코드를 지워버려서","저장하면 자동으로 홍보가 돼서"],a:0,
+   ex:"커밋은 게임의 세이브 포인트예요. 세이브가 많을수록 과감하게 새로운 시도를 할 수 있습니다."},
+  {w:2,t:"접속 링크 만들기",q:"내 컴퓨터에서 localhost:3000으로 잘 열리던 서비스를 친구에게 보냈더니 열리지 않는다. 이유는?",
+   o:["친구의 인터넷 속도가 느려서","친구의 브라우저가 오래돼서","3000번 주소는 유료라서","localhost는 ‘지금 이 컴퓨터 자신’을 가리키는 주소라서, 배포해서 인터넷 주소를 따로 만들어야 한다"],a:3,
+   ex:"localhost는 내 컴퓨터 안에서만 통하는 주소예요. Vercel 같은 곳에 배포해야 누구나 열 수 있는 링크가 생깁니다."},
+  {w:2,t:"진짜 반응 확인 질문법",q:"만든 서비스에 대한 진짜 반응을 알고 싶을 때 가장 좋은 질문은?",
+   o:["“이거 괜찮지 않아?”","“이런 서비스가 있으면 돈 내고 쓸 거야?”","“최근에 이 문제 때문에 불편했던 적이 언제였어? 그때는 어떻게 해결했어?”","“10점 만점에 몇 점 줄래?”"],a:2,
+   ex:"사람들은 미래를 물으면 예의상 좋게 답해요. 과거에 실제로 겪은 일과 행동을 물어야 진짜 필요가 보입니다."},
+  {w:2,t:"웹과 모바일 최적화",q:"PC에서는 멀쩡한데 휴대폰에서는 글자가 겹치고 화면이 옆으로 밀린다. AI에게 어떻게 요청할까?",
+   o:["“휴대폰용 앱을 새로 하나 만들어줘”","“화면 너비에 따라 배치가 바뀌도록 반응형으로 고쳐줘. 휴대폰에서 가로 스크롤이 생기지 않게 해줘”","“글자를 전부 아주 작게 줄여줘”","요청하지 않고, PC에서만 쓰라고 안내한다"],a:1,
+   ex:"반응형은 화면 크기에 맞춰 배치가 알아서 바뀌는 방식이에요. 증상(겹침, 가로 밀림)과 원하는 결과를 함께 말하면 됩니다."},
+
+  {w:3,t:"API 이해하기",q:"API를 식당에 비유하면 무엇에 해당할까?",
+   o:["손님의 주문을 주방에 전달하고, 음식을 받아 가져다주는 웨이터","식당 건물","주방장의 레시피 책","계산대의 금고"],a:0,
+   ex:"내 서비스(손님)가 요청을 보내면 API(웨이터)가 다른 서비스(주방)에 전달하고 결과(음식)를 받아 와요. 주방 안이 어떻게 돌아가는지는 몰라도 됩니다."},
+  {w:3,t:".env 파일과 보안",q:"API 키를 .env 파일에 넣고 GitHub에는 올리지 않는 이유는?",
+   o:[".env 파일은 용량이 커서 올라가지 않아서","GitHub에 올리면 서비스 속도가 느려져서","키가 공개되면 다른 사람이 내 계정으로 API를 써서 요금 폭탄이나 정보 유출이 생길 수 있어서",".env 파일은 Claude만 읽을 수 있어서"],a:2,
+   ex:"API 키는 내 계정의 신용카드와 같아요. .env에 따로 두고 .gitignore로 업로드 대상에서 빼야 안전합니다."},
+  {w:3,t:"내 서비스에 AI 기능 연결",q:"내 서비스에 AI 기능을 붙일 때, AI API 키는 어디에서 사용해야 안전할까?",
+   o:["버튼이 있는 화면(브라우저) 코드 안에 직접 넣는다","사용자가 볼 수 있는 페이지 하단 문구에 적어 둔다","공개 저장소의 README 파일에 적어 둔다","서버 쪽 코드(예: Supabase Edge Function)에서 사용하고, 화면은 서버에 요청만 보내게 한다"],a:3,
+   ex:"브라우저 코드는 누구나 개발자 도구로 열어볼 수 있어요. 키는 서버에 숨기고, 화면은 ‘이거 해줘’라는 요청만 보내도록 만듭니다."},
+  {w:3,t:"OAuth 구글 로그인",q:"OAuth 구글 로그인을 가장 정확하게 설명한 것은?",
+   o:["내 서비스가 사용자의 구글 비밀번호를 받아서 대신 로그인해 주는 방식","내 서비스는 비밀번호를 받지 않고, 구글이 ‘이 사람이 맞다’고 확인해 준 뒤 허락된 정보만 넘겨받는 방식","사용자에게 구글 계정을 새로 만들어 주는 방식","구글 검색 결과에 내 서비스를 올려주는 방식"],a:1,
+   ex:"비밀번호는 구글만 알고, 내 서비스는 구글이 발급한 ‘확인증’만 받아요. 그래서 비밀번호를 직접 저장하는 것보다 안전합니다."},
+  {w:3,t:"사용자 정보 안전하게 구분",q:"A가 로그인했는데 B가 쓴 메모까지 보인다. 무엇을 설정해야 할까?",
+   o:["Supabase의 RLS 정책으로, 로그인한 사람의 user_id와 같은 행만 보고 수정할 수 있게 한다","로그인 화면 디자인을 바꾼다","비밀번호를 더 길게 만들도록 한다","도메인을 새로 산다"],a:0,
+   ex:"RLS(행 단위 보안)는 데이터베이스가 직접 ‘네 것만 보여줄게’라고 막아주는 규칙이에요. 화면에서만 숨기는 것으로는 안전하지 않습니다."},
+  {w:3,t:"데이터베이스 연결과 저장",q:"메모를 입력하고 새로고침하면 전부 사라진다. 가장 가능성 높은 원인은?",
+   o:["인터넷이 잠깐 끊겨서","메모가 너무 길어서","데이터가 화면(브라우저 메모리)에만 있고 데이터베이스에 저장되지 않아서","로그인을 두 번 해서"],a:2,
+   ex:"화면에만 있는 데이터는 새로고침하면 사라져요. Supabase 같은 데이터베이스에 저장해야 다음에 다시 불러올 수 있습니다."},
+  {w:3,t:"MCP",q:"MCP에 대한 설명으로 가장 알맞은 것은?",
+   o:["코드를 다른 언어로 자동 번역해 주는 프로그램","구글 로그인을 대신 처리해 주는 기능","웹사이트 주소(도메인)를 사는 서비스","Claude 같은 AI가 Supabase, 구글 드라이브 같은 외부 도구에 연결해 직접 조회하고 작업할 수 있게 해주는 표준 연결 방식"],a:3,
+   ex:"MCP는 AI용 USB-C 포트라고 생각하면 쉬워요. 규격이 하나라서 여러 도구를 같은 방식으로 꽂아 쓸 수 있습니다."}
+];
+
+const TYPES = {
+  top:{emoji:"🚀",name:"바로 출시해도 되는 메이커",sub:"기획부터 수정, 연결까지 3주 과정을 거의 완벽하게 이해했어요. 이제 남은 건 실제 사용자 앞에 내놓는 일이에요.",
+       good:"아이디어를 PRD로, PRD를 작동하는 서비스로 옮기는 전 과정을 알고 있어요.",
+       next:"1:1 컨설팅에서 출시 전 점검 목록과 첫 사용자 모으는 방법을 물어보세요."},
+  w1:{emoji:"🧭",name:"손이 먼저 가는 실행파",sub:"만드는 속도는 빠른데, 무엇을 왜 만드는지 정리하는 부분이 조금 흔들려요. 기획이 탄탄해지면 수정 횟수가 확 줄어요.",
+      good:"AI에게 바로 요청하고 결과를 뽑아내는 실행력이 있어요.",
+      next:"1주차 PRD 작성법과 아이디어를 기능으로 쪼개는 부분을 다시 보세요."},
+  w2:{emoji:"🔧",name:"수정 지옥 탈출 중인 여행자",sub:"기획과 연결은 이해했는데, 고치고 저장하고 공유하는 과정에서 헤매는 편이에요. 요청 한마디만 바꿔도 훨씬 편해져요.",
+      good:"무엇을 만들지, 어떻게 연결할지 큰 그림이 잡혀 있어요.",
+      next:"2주차 수정 요청법, 오류 해결법, 저장과 배포 흐름을 다시 보세요."},
+  w3:{emoji:"🔌",name:"연결만 남은 화면 장인",sub:"화면을 만들고 다듬는 건 익숙한데, 로그인과 데이터 저장처럼 진짜 서비스로 만드는 연결 부분이 아직 낯설어요.",
+      good:"기획하고 화면을 만들고 고치는 흐름이 몸에 붙어 있어요.",
+      next:"3주차 API, OAuth, RLS, 데이터베이스 저장 부분을 다시 보세요."},
+  seed:{emoji:"🌱",name:"이제 막 시동 건 새싹 빌더",sub:"아직 헷갈리는 개념이 많지만 괜찮아요. 해설을 천천히 읽고 한 번 더 풀면 금방 올라와요.",
+        good:"끝까지 풀어낸 것 자체가 좋은 출발이에요.",
+        next:"틀린 문제 해설을 주차 순서대로 읽고, 가장 약한 주차부터 복습하세요."}
+};
+
+const KEY = "vc1-mbti-v1";
+let st = {answers:Array(Q.length).fill(null), idx:0, done:false};
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && Array.isArray(s.answers) && s.answers.length === Q.length) st = s; } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} };
+const $ = id => document.getElementById(id);
+let locked = false;
+
+function show(id){
+  ["s-start","s-quiz","s-loading","s-result"].forEach(s => $(s).hidden = s !== id);
+  window.scrollTo({top:0});
+}
+
+function renderQ(dir){
+  const i = st.idx, q = Q[i];
+  $("count").textContent = `${i+1}/${Q.length}`;
+  $("pfill").style.width = (i / Q.length * 100) + "%";
+  $("pbar").setAttribute("aria-valuenow", i);
+  $("backBtn").disabled = i === 0;
+  const c = $("qcard");
+  c.innerHTML = `<span class="week-pill">${q.w}주차</span><span class="topic">${q.t}</span>
+    <p class="qnum">Q${i+1}.</p>
+    <h2 class="qtext" id="qh">${q.q}</h2>
+    <div class="answers" role="group" aria-labelledby="qh">
+      ${q.o.map((o,j)=>`<button type="button" class="ans${st.answers[i]===j?" picked":""}" data-o="${j}"><span class="k">${"ABCD"[j]}</span><span>${o}</span></button>`).join("")}
+    </div>`;
+  c.classList.remove("enter","enter-back"); void c.offsetWidth;
+  c.classList.add(dir < 0 ? "enter-back" : "enter");
+  locked = false;
+}
+
+$("qcard").addEventListener("click", e => {
+  const b = e.target.closest(".ans"); if (!b || locked) return;
+  locked = true;
+  st.answers[st.idx] = +b.dataset.o;
+  b.parentElement.querySelectorAll(".ans").forEach(x => x.classList.toggle("picked", x === b));
+  save();
+  setTimeout(() => {
+    if (st.idx < Q.length - 1){ st.idx++; save(); renderQ(1); }
+    else finish();
+  }, 280);
+});
+
+$("backBtn").addEventListener("click", () => { if (st.idx > 0){ st.idx--; save(); renderQ(-1); } });
+
+function finish(){
+  $("pfill").style.width = "100%";
+  st.done = true; save();
+  show("s-loading");
+  setTimeout(renderResult, 1500);
+}
+
+function calc(){
+  const wk = [1,2,3].map(w => {
+    const idx = Q.map((_,i)=>i).filter(i => Q[i].w === w);
+    const c = idx.filter(i => st.answers[i] === Q[i].a).length;
+    return {w, c, n:idx.length, r:c/idx.length};
+  });
+  const correct = Q.filter((q,i) => st.answers[i] === q.a).length;
+  const score = correct * 5;
+  let type;
+  if (score >= 95) type = "top";
+  else if (score < 50) type = "seed";
+  else {
+    const min = Math.min(...wk.map(x => x.r));
+    type = "w" + wk.filter(x => x.r === min).sort((a,b) => b.w - a.w)[0].w;
+  }
+  return {wk, correct, score, type};
+}
+
+let filter = "wrong";
+function renderResult(){
+  const r = calc(), t = TYPES[r.type];
+  $("s-result").innerHTML = `
+    <div class="rcard enter">
+      <p class="rlabel">나의 바이브코딩 유형은</p>
+      <div class="remoji" aria-hidden="true">${t.emoji}</div>
+      <h2 class="rtype">${t.name}</h2>
+      <p class="rsub">${t.sub}</p>
+      <div class="score"><b>${r.score}</b><span>점 · ${r.correct}/20 정답</span></div>
+    </div>
+    <div class="section">
+      <h3>주차별 이해도</h3>
+      ${r.wk.map(x => `<div class="gauge"><span class="g-name">${x.w}주차</span><span class="g-bar"><i data-w="${x.r*100}"></i></span><span class="g-num">${x.c}/${x.n}</span><span class="g-title">${WEEKS[x.w]}</span></div>`).join("")}
+    </div>
+    <div class="section">
+      <h3>이런 점이 좋아요, 이것만 더 보면 돼요</h3>
+      <div class="two"><div><b>강점</b>${t.good}</div><div><b>다음 복습</b>${t.next}</div></div>
+    </div>
+    <div class="section">
+      <h3>문제 다시 보기</h3>
+      <div class="filter">
+        <button type="button" data-f="wrong">틀린 문제 ${20 - r.correct}</button>
+        <button type="button" data-f="all">전체 20</button>
+      </div>
+      <div class="review" id="review"></div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="button" id="shareBtn">결과 링크 복사하기</button>
+      <button class="btn ghost" type="button" id="retryBtn">다시 테스트하기</button>
+    </div>`;
+  show("s-result");
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.querySelectorAll(".g-bar i").forEach(i => i.style.width = i.dataset.w + "%");
+  }));
+  filter = r.correct === 20 ? "all" : "wrong";
+  renderReview();
+  $("s-result").querySelectorAll(".filter button").forEach(b => b.addEventListener("click", () => { filter = b.dataset.f; renderReview(); }));
+  $("retryBtn").addEventListener("click", restart);
+  $("shareBtn").addEventListener("click", share);
+}
+
+function renderReview(){
+  document.querySelectorAll(".filter button").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === filter ? "true" : "false"));
+  const list = Q.map((q,i) => ({q,i,ok: st.answers[i] === q.a})).filter(x => filter === "all" || !x.ok);
+  $("review").innerHTML = list.length ? list.map(({q,i,ok}) => `
+    <details class="rv ${ok?"ok":"no"}">
+      <summary><span class="mk" aria-label="${ok?"정답":"오답"}">${ok?"O":"X"}</span><span>Q${i+1}. ${q.q}</span></summary>
+      <div class="body">
+        ${!ok && st.answers[i] !== null ? `<p class="line mine">내 답: ${"ABCD"[st.answers[i]]}. ${q.o[st.answers[i]]}</p>` : ""}
+        <p class="line right">정답: ${"ABCD"[q.a]}. ${q.o[q.a]}</p>
+        <p class="exp">${q.ex}</p>
+      </div>
+    </details>`).join("") : `<p style="margin:0;color:var(--soft)">틀린 문제가 없어요. 전체 보기로 해설을 훑어볼 수 있어요.</p>`;
+}
+
+function toast(msg){ const t = $("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1800); }
+async function share(){
+  const r = calc();
+  const text = `나의 바이브코딩 유형: ${TYPES[r.type].name} (${r.score}점)\n${location.href}`;
+  try { await navigator.clipboard.writeText(text); toast("결과를 복사했어요"); }
+  catch(e){ toast("복사가 막혀 있어요. 주소창의 링크를 공유해 주세요"); }
+}
+
+function restart(){
+  st = {answers:Array(Q.length).fill(null), idx:0, done:false}; save();
+  show("s-quiz"); renderQ(1);
+}
+
+$("startBtn").addEventListener("click", restart);
+$("resumeBtn").addEventListener("click", () => { show("s-quiz"); renderQ(1); });
+
+if (st.done) renderResult();
+else {
+  if (st.answers.some(a => a !== null)) { $("resumeBtn").hidden = false; $("resumeBtn").textContent = `이어서 풀기 (Q${st.idx+1}부터)`; }
+  show("s-start");
+}
+</script>
+</body>
+</html>
